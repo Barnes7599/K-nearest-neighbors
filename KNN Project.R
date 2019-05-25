@@ -9,6 +9,7 @@ library(ISLR)
 head(iris)
 str(iris)
 
+
 ##########################
 ## STANDARDIZE THE DATA ## 
 ##########################
@@ -37,7 +38,7 @@ test.iris <- subset(final.data, sample.iris == FALSE)
 
 library(class)
 
-predicted.species <- knn(train.iris[1:4], test.iris[1:4], train.iris$Species, k = 1)
+predicted.species <- knn(train.iris[1:4], test.iris[1:4], train.iris$Species, k = 11)
 error.rate <- mean(test.iris$Species != predicted.species)
 
 error.rate
@@ -46,9 +47,24 @@ error.rate
 ## K VALUE ##
 #############
 
+sqrt(150) 
+
+#or
+
+predicted.species <-  NULL
+error.rate <- NULL
+
+for (i in 1:10) {
+    set.seed(101)
+    predicted.species <- knn(train.iris[1:4], test.iris[1:4], train.iris$Species, k = i)
+    error.rate[i] <-  mean(test.iris$Species != predicted.species)
+}
+
+
 k.values <- 1:10
 error.species.df <- data.frame(error.rate, k.values)
 
-ggplot(error.df, aes(k.values, error.rate)) + 
+ggplot(error.species.df, aes(k.values, error.rate)) + 
     geom_point() +
-    geom_line(lty = 'dotted', color = 'red')
+    geom_line(lty = 'dotted', color = 'red') +
+    theme_bw()
