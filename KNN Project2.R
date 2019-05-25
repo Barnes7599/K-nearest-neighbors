@@ -29,10 +29,10 @@ var(standardized.wdbc[,24])
 head(standardized.wdbc)
 
 
-final.wdbc <- cbind(wdbc[1], standardized.wdbc)
+final.wdbc <- cbind(standardized.wdbc, wdbc[1])
 head(final.wdbc)
 
-cancer <- wdbc$V2
+
 #####################
 ## TRAIN AND SPLIT ##
 #####################
@@ -49,8 +49,8 @@ str(test.wdbc)
 ###############
 ## KNN MODEL ##
 ###############
-
-predicted.wdbc <- knn(train.wdbc[2:31], test.wdbc[2:31], train.wdbc$V2, k = 9)
+set.seed(101)
+predicted.wdbc <- knn(train.wdbc[1:30], test.wdbc[1:30], train.wdbc$V2, k = 9)
 error.rate <- mean(test.wdbc$V2 != predicted.wdbc)
 
 error.rate
@@ -74,8 +74,8 @@ predicted.wdbc <- NULL
 error.rate <- NULL
 
 for (i in 1:25) {
-    
-    predicted.wdbc <- knn(train.wdbc[2:31], test.wdbc[2:31], train.wdbc$V2, k = i)
+    set.seed(101)
+    predicted.wdbc <- knn(train.wdbc[1:30], test.wdbc[1:30], train.wdbc$V2, k = i)
     error.rate <- error.rate[i] <- mean(test.wdbc$V2 != predicted.wdbc)
 }
 
