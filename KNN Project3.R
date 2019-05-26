@@ -27,7 +27,7 @@ sample.train <- subset(final.df, sample == TRUE)
 sample.test <- subset(final.df, sample == FALSE)
 
 set.seed(101)
-predicted.df <- knn(sample.train[1:32], sample.test[1:32], sample.train$V2, k = 8)
+predicted.df <- knn(sample.train[1:32], sample.test[1:32], sample.train$V2, k = 6 )
 
 error.rate  <-  mean(sample.test$V2 != predicted.df)
 
@@ -43,14 +43,14 @@ recall
 predicted.species <-  NULL
 error.rate <- NULL
 
-for (i in 1:10) {
+for (i in 1:25 ) {
     set.seed(101)
     predicted.df <- knn(sample.train[1:32], sample.test[1:32], sample.train$V2, k = i)
     error.rate[i] <-  mean(sample.test$V2 != predicted.df)
 }
 
 
-k.values <- 1:10
+k.values <- 1:25
 error.df <- data.frame(error.rate, k.values)
 
 ggplot(error.df, aes(k.values, error.rate)) + 
